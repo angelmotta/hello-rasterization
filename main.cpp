@@ -44,6 +44,7 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
+    // We do have to tell GLFW we want to call this function on every window resize by registering it
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
@@ -94,6 +95,7 @@ int main()
     glDeleteShader(fragmentShader);
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
+    /*
     float vertices[] = {
             -0.5f, -0.5f, 0.0f, // left
             0.5f, -0.5f, 0.0f, // right
@@ -101,6 +103,29 @@ int main()
             1,-1,0,
             1,1,0,
             0.5,1, 0
+    };
+     */
+    // Mi piramide
+    float vertices[] = {
+            // Front face
+            0.0f, 1.0f, 0.0f,     // Top vertex
+            -1.0f, -1.0f, 1.0f,    // Bottom left vertex
+            1.0f, -1.0f, 1.0f,    // Bottom right vertex
+
+            // Right face
+            0.0f, 1.0f, 0.0f,     // Top vertex
+            1.0f, -1.0f, 1.0f,    // Bottom left vertex
+            1.0f, -1.0f, -1.0f,   // Bottom right vertex
+
+            // Back face
+            0.0f, 1.0f, 0.0f,     // Top vertex
+            1.0f, -1.0f, -1.0f,   // Bottom left vertex
+            -1.0f, -1.0f, -1.0f,   // Bottom right vertex
+
+            // Left face
+            0.0f, 1.0f, 0.0f,     // Top vertex
+            -1.0f, -1.0f, -1.0f,   // Bottom left vertex
+            -1.0f, -1.0f, 1.0f,     // Bottom right vertex
     };
 
     unsigned int VBO, VAO;
