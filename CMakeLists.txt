@@ -24,5 +24,5 @@ set(CMAKE_CXX_FLAGS -I${GLFW_INCLUDE_DIR})
 include_directories(./include/)
 link_directories(${GLFW_LIBRARY_DIR})
 
-add_executable(hello_opengl main.cpp include/glad.c)
+add_executable(hello_opengl hello_triangle_indexed.cpp include/glad.c)
 target_link_libraries(hello_opengl glfw.3)
