@@ -107,25 +107,31 @@ int main()
      */
     // Mi piramide
     float vertices[] = {
-            // Front face
-            0.0f, 1.0f, 0.0f,     // Top vertex
-            -1.0f, -1.0f, 1.0f,    // Bottom left vertex
-            1.0f, -1.0f, 1.0f,    // Bottom right vertex
+            // Front face (visible)
+            0.0f, 0.5f, 0.0f,     // Top vertex
+            -0.5f, -0.5f, 0.5f,   // Bottom left vertex
+            0.5f, -0.5f, 0.5f,    // Bottom right vertex
 
-            // Right face
-            0.0f, 1.0f, 0.0f,     // Top vertex
-            1.0f, -1.0f, 1.0f,    // Bottom left vertex
-            1.0f, -1.0f, -1.0f,   // Bottom right vertex
+            // Right face (default no visible)
+            0.0f, 0.5f, 0.0f,     // Top vertex
+            0.5f, -0.5f, 0.5f,    // Bottom left vertex
+            0.5f, -0.5f, -0.5f,   // Bottom right vertex (reducir 'x' para verlo)
 
             // Back face
-            0.0f, 1.0f, 0.0f,     // Top vertex
-            1.0f, -1.0f, -1.0f,   // Bottom left vertex
-            -1.0f, -1.0f, -1.0f,   // Bottom right vertex
+            0.0f, 0.5f, 0.0f,     // Top vertex
+            0.5f, -0.5f, -0.5f,   // Bottom left vertex
+            -0.5f, -0.5f, -0.5f,  // Bottom right vertex
 
-            // Left face
-            0.0f, 1.0f, 0.0f,     // Top vertex
-            -1.0f, -1.0f, -1.0f,   // Bottom left vertex
-            -1.0f, -1.0f, 1.0f,     // Bottom right vertex
+            // Left face (default no visible)
+            0.0f, 0.5f, 0.0f,     // Top vertex
+            -0.5f, -0.5f, -0.5f,  // Bottom left vertex
+            -0.5f, -0.5f, 0.5f,   // Bottom right vertex
+
+            // Bottom face (default no visible)
+            -0.5f, -0.5f, 0.5f,   // Bottom left vertex
+            0.5f, -0.5f, 0.5f,    // Bottom right vertex
+            0.5f, -0.5f, -0.5f,   // Top vertex
+            -0.5f, -0.5f, -0.5f   // Top vertex     // Bottom right vertex
     };
 
     unsigned int VBO, VAO;
