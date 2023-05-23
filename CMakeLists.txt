@@ -26,3 +26,6 @@ link_directories(${GLFW_LIBRARY_DIR})
 
 add_executable(hello_opengl hello_triangle_indexed.cpp include/glad.c)
 target_link_libraries(hello_opengl glfw.3)
+
+add_executable(E5_Transformations shader/transformations.cpp include/glad.c shader/stb_image.cpp)
+target_link_libraries(E5_Transformations glfw.3)
