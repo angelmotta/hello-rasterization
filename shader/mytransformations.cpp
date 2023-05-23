@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "shader_s.h"
 #include <iostream>
+#include <vector>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
