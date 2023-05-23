@@ -88,6 +88,11 @@ int main() {
     ourShader.use();
     unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 
+    int N_TRIANGULOS = 1;
+    std::vector<std::vector<float>> pos_triangulos;
+    std::vector<float> posTriang = {0.0f, 1.0f, 0.0f};
+    pos_triangulos.push_back(posTriang);
+
     // render loop
     while (!glfwWindowShouldClose(window)){
         // input
@@ -100,7 +105,8 @@ int main() {
         // create transformations
         glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         //transform = glm::translate(transform, glm::vec3(0.1f, -0.1f, 0.0f));
-        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+        //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(pos_triangulos[0][0], pos_triangulos[0][1], pos_triangulos[0][2]));
         // get matrix's uniform location and set matrix
         ourShader.use();
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
@@ -109,15 +115,15 @@ int main() {
         glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
         // create transformations
-        glm::mat4 transform2 = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-        transform2 = glm::translate(transform2, glm::vec3(0.5f, -0.5f, 0.0f));
-        transform2 = glm::rotate(transform2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-        // get matrix's uniform location and set matrix
-        ourShader.use();
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform2));
-        // render container
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+//        glm::mat4 transform2 = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+//        transform2 = glm::translate(transform2, glm::vec3(0.5f, -0.5f, 0.0f));
+//        transform2 = glm::rotate(transform2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+//        // get matrix's uniform location and set matrix
+//        ourShader.use();
+//        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform2));
+//        // render container
+//        glBindVertexArray(VAO);
+//        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
