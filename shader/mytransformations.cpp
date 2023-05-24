@@ -6,9 +6,11 @@
 #include "shader_s.h"
 #include <iostream>
 #include <vector>
+#include <random>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+void getRandomPositions(int N_TRIANGULOS, std::vector<std::vector<float>> &pos_triangulos);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -89,21 +91,37 @@ int main() {
     ourShader.use();
     unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 
-    int N_TRIANGULOS = 1;
+    int N_TRIANGULOS = 7;
     std::vector<std::vector<float>> pos_triangulos;
-    std::vector<float> posTriang = {0.0f, 1.0f, 0.0f};
-    pos_triangulos.push_back(posTriang);
+//    std::vector<float> posTriang = {0.0f, 1.0f, 0.0f};
+//    pos_triangulos.push_back(posTriang);
+    getRandomPositions(N_TRIANGULOS, pos_triangulos);
 
     // render loop
     while (!glfwWindowShouldClose(window)){
         // input
         processInput(window);
-
         // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        // Create transformations in loop
+        for (int i = 0; i < N_TRIANGULOS; ++i) {
+            // create transformations
+            glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+//            transform = glm::translate(transform, glm::vec3(0.1f, -0.1f, 0.0f));
+            transform = glm::translate(transform, glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
+            //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+            transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
+            // get matrix's uniform location and set matrix
+            ourShader.use();
+            glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+            // render container
+            glBindVertexArray(VAO);
+            glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+        }
 
         // create transformations
+        /*
         glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         //transform = glm::translate(transform, glm::vec3(0.1f, -0.1f, 0.0f));
         //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -114,6 +132,7 @@ int main() {
         // render container
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+        */
 
         // create transformations
 //        glm::mat4 transform2 = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
@@ -152,4 +171,21 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+}
+
+void getRandomPositions(int N_TRIANGULOS, std::vector<std::vector<float>> &pos_triangulos) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dist(-1.0, 1.0);
+
+    for (int i = 0; i < N_TRIANGULOS; ++i) {
+        std::cout << "Triangulo #" << i << "\n";
+        // Get randoms float numbers between -1 and 1.
+        float random_x = dist(gen);
+        float random_y = dist(gen);
+        float z = 0.0f;
+        std::cout << "x: " << random_x << ", y: " << random_y << ", z:" << z << "\n";
+        std::vector<float> posTriang = {random_x, random_y, z};
+        pos_triangulos.push_back(posTriang);
+    }
 }
