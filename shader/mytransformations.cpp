@@ -90,6 +90,7 @@ int main() {
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     ourShader.use();
     unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    unsigned int colorLoc = glGetUniformLocation(ourShader.ID, "color");
 
     int N_TRIANGULOS = 7;
     std::vector<std::vector<float>> pos_triangulos;
@@ -108,6 +109,7 @@ int main() {
         for (int i = 0; i < N_TRIANGULOS; ++i) {
             // create transformations
             glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+            transform = glm::scale(transform, glm::vec3(0.7f));
 //            transform = glm::translate(transform, glm::vec3(0.1f, -0.1f, 0.0f));
             transform = glm::translate(transform, glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
             //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -115,6 +117,7 @@ int main() {
             // get matrix's uniform location and set matrix
             ourShader.use();
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+            glUniform3f(colorLoc, 1.0f, 1.0f, 0.0f);
             // render container
             glBindVertexArray(VAO);
             glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
