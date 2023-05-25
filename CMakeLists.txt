@@ -32,3 +32,6 @@ target_link_libraries(E5_Transformations glfw.3)
 
 add_executable(E5_MyTransformations shader/mytransformations.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E5_MyTransformations glfw.3)
+
+add_executable(E2_Iluminacion shader/basic_lighting_diffuse.cpp include/glad.c shader/stb_image.cpp)
+target_link_libraries(E2_Iluminacion glfw.3)
