@@ -11,6 +11,7 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 void getRandomPositions(int N_TRIANGULOS, std::vector<std::vector<float>> &pos_triangulos);
+float getRandomZeroToOne();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -92,12 +93,23 @@ int main() {
     unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
     unsigned int colorLoc = glGetUniformLocation(ourShader.ID, "color");
 
-    int N_TRIANGULOS = 7;
+    int N_TRIANGULOS = 10;
     std::vector<std::vector<float>> pos_triangulos;
 //    std::vector<float> posTriang = {0.0f, 1.0f, 0.0f};
 //    pos_triangulos.push_back(posTriang);
     getRandomPositions(N_TRIANGULOS, pos_triangulos);
-
+    // Generate random scale and color for N pyramids
+    std::vector<float> scaleVals;
+    std::vector<std::vector<float>> randColors;
+    for (int i = 0; i < N_TRIANGULOS; i++) {
+        float myScaleVal = getRandomZeroToOne();
+        scaleVals.push_back(myScaleVal);
+        float r_rand = getRandomZeroToOne();
+        float g_rand = getRandomZeroToOne();
+        float b_rand = getRandomZeroToOne();
+        std::vector<float> randColor = {r_rand, g_rand, b_rand};
+        randColors.push_back(randColor);
+    }
     // render loop
     while (!glfwWindowShouldClose(window)){
         // input
@@ -109,15 +121,15 @@ int main() {
         for (int i = 0; i < N_TRIANGULOS; ++i) {
             // create transformations
             glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            transform = glm::scale(transform, glm::vec3(0.7f));
+            transform = glm::scale(transform, glm::vec3(scaleVals[i]));
 //            transform = glm::translate(transform, glm::vec3(0.1f, -0.1f, 0.0f));
             transform = glm::translate(transform, glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
             //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-            transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
+            //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(pos_triangulos[i][0], pos_triangulos[i][1], pos_triangulos[i][2]));
             // get matrix's uniform location and set matrix
             ourShader.use();
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-            glUniform3f(colorLoc, 1.0f, 1.0f, 0.0f);
+            glUniform3f(colorLoc, randColors[i][0], randColors[i][1], randColors[i][1]);
             // render container
             glBindVertexArray(VAO);
             glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
@@ -191,4 +203,12 @@ void getRandomPositions(int N_TRIANGULOS, std::vector<std::vector<float>> &pos_t
         std::vector<float> posTriang = {random_x, random_y, z};
         pos_triangulos.push_back(posTriang);
     }
+}
+
+float getRandomZeroToOne() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dist(0, 1.0);
+    float myrandom = dist(gen);
+    return myrandom;
 }
