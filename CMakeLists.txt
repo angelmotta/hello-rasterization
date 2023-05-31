@@ -35,3 +35,6 @@ target_link_libraries(E5_MyTransformations glfw.3)
 
 add_executable(E2_Iluminacion shader/basic_lighting_diffuse.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E2_Iluminacion glfw.3)
+
+add_executable(T9_Npiramides shader/mynpiramidesilum.cpp include/glad.c shader/stb_image.cpp)
+target_link_libraries(T9_Npiramides glfw.3)
