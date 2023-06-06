@@ -24,8 +24,23 @@ set(CMAKE_CXX_FLAGS -I${GLFW_INCLUDE_DIR})
 include_directories(./include/)
 link_directories(${GLFW_LIBRARY_DIR})
 
-add_executable(hello_opengl hello_triangle_indexed.cpp include/glad.c)
-target_link_libraries(hello_opengl glfw.3)
+add_executable(hello_triangulo hello_triangle.cpp include/glad.c)
+target_link_libraries(hello_triangulo glfw.3)
+
+add_executable(hello_piramide hello_piramide.cpp include/glad.c)
+target_link_libraries(hello_piramide glfw.3)
+
+add_executable(hello_trian_indexed hello_triangle_indexed.cpp include/glad.c)
+target_link_libraries(hello_trian_indexed glfw.3)
+
+add_executable(hello_exe1 hello_exercises/two_tri.cpp include/glad.c)
+target_link_libraries(hello_exe1 glfw.3)
+
+add_executable(hello_exe1_sol hello_exercises/two_tri_sol.cpp include/glad.c)
+target_link_libraries(hello_exe1_sol glfw.3)
+
+add_executable(hello_exe2 hello_exercises/exe2_two_tri_diff.cpp include/glad.c)
+target_link_libraries(hello_exe2 glfw.3)
 
 add_executable(E5_Transformations shader/transformations.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E5_Transformations glfw.3)

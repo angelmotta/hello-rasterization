@@ -99,15 +99,26 @@ int main()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
+//    float vertices[] = {
+//            0.5f,  0.5f, 0.0f,  // top right
+//            0.5f, -0.5f, 0.0f,  // bottom right
+//            -0.5f, -0.5f, 0.0f,  // bottom left
+//            -0.5f,  0.5f, 0.0f   // top left
+//    };
+
+    // Mi piramide
     float vertices[] = {
-            0.5f,  0.5f, 0.0f,  // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left
+            0, 0, 0,       // IZQUIERDO
+            0.7, 0.2, 0.5,  // PROFUNDO
+            0.5, 0, 0,     // DERECHO
+            0.25, 0.5, 0, // ARRIBA
     };
+
     unsigned int indices[] = {  // note that we start from 0!
-            0, 1, 3,  // first Triangle
-            1, 2, 3   // second Triangle
+            0, 1, 2,  // 1 Triangle
+            1, 2, 3,   // 2 Triangle
+            2, 3, 0,   // 3 Triangle
+            3, 0, 1   // 4 Triangle
     };
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
@@ -156,7 +167,7 @@ int main()
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
         // glBindVertexArray(0); // no need to unbind it every time
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -193,4 +204,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
-}
+}//
+// Created by Angel Motta on 17/05/23.
+//
