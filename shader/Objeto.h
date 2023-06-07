@@ -22,6 +22,7 @@ public:
     vector<GLuint> indices;
     GLuint indices_size;
     float v0, x0, y0, a0, xt, yt;
+    float creationTime;
     GLuint vao;
     mat4 model;
     bool visible=true;

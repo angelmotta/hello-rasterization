@@ -177,7 +177,8 @@ void processInput(GLFWwindow *window) {
             objetos.emplace_back(pE);
             isButtonPressed = false;
             //cout << endl << x << " " << y << " " << z << " " << pE->a0;
-            tiempoInicial = static_cast<float>(glfwGetTime());
+            //tiempoInicial = static_cast<float>(glfwGetTime());
+            pE->creationTime = static_cast<float>(glfwGetTime());
         }
     }
 }

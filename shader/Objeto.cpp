@@ -84,8 +84,9 @@ void Esfera::display(Shader &sh){
 void Esfera::actualizarPosicion(float t) {
     float g = 9.8;
     float theta = radians(a0);
-    xt = x0 + v0 * cos(theta) * t;
-    yt = y0 + v0 * sin(theta) * t - 0.5 * g * t * t;
+    float elapsedTime = t - this->creationTime;
+    xt = x0 + v0 * cos(theta) * elapsedTime;
+    yt = y0 + v0 * sin(theta) * elapsedTime - 0.5 * g * elapsedTime * elapsedTime;
     centro.x = xt;
     centro.y = yt;
 }
