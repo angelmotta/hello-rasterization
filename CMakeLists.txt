@@ -42,6 +42,9 @@ target_link_libraries(hello_exe1_sol glfw.3)
 add_executable(hello_exe2 hello_exercises/exe2_two_tri_diff.cpp include/glad.c)
 target_link_libraries(hello_exe2 glfw.3)
 
+add_executable(hello_exe3 hello_exercises/exe3_two_shaders.cpp include/glad.c)
+target_link_libraries(hello_exe3 glfw.3)
+
 add_executable(E5_Transformations shader/transformations.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E5_Transformations glfw.3)
 
