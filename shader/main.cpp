@@ -34,14 +34,14 @@ float lastFrame = 0.0f;
 float tiempoInicial = 0.0f, tiempoTranscurrido = 0.0f;
 
 // lighting
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(1.2f, 30.0f, 2.0f);
 
-
-
-//Esfera esfera(vec3(0),2., 100, 100);
+Esfera esfera(vec3(0),2., 20, 20);
 Objeto *pEsfera = new Esfera(vec3(0),2, 50, 50);
 
 Model_PLY modelo;
+vector<Objeto*> objetos;
+
 int main() {
     char *archivo = "../shader/models/bunny.ply";
     modelo.Load(archivo);
@@ -84,8 +84,13 @@ int main() {
     //Shader lightCubeShader("../2.2.light_cube.vs", "../2.2.light_cube.fs");
 
     //esfera.vao = esfera.setup();
-    pEsfera->setup();
+    //pEsfera->setup();
+    esfera.setup();
+    pEsfera->vao = esfera.vao;
     modelo.setup();
+
+    objetos.emplace_back(pEsfera);
+
     // render loop
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
@@ -118,7 +123,10 @@ int main() {
         lightingShader.setMat4("model", model);
 
         //esfera.display(lightingShader);
-        pEsfera->display(lightingShader);
+        //pEsfera->display(lightingShader);
+        for (auto &obj : objetos) {
+            obj->display(lightingShader);
+        }
         modelo.display(lightingShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -149,6 +157,12 @@ void processInput(GLFWwindow *window) {
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS){
+        Objeto *pE = new Esfera(glm::vec3(rand()%10, rand()%10, rand()%10));
+        pE->vao = esfera.vao;
+        pE->indices_size = esfera.indices_size;
+        objetos.emplace_back(pE);
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -173,7 +187,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 
     lastX = xpos;
     lastY = ypos;
-    //camera.ProcessMouseMovement(xoffset, yoffset);
+    camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
