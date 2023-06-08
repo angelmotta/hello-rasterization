@@ -22,6 +22,7 @@ public:
     void    display(Shader &sh);
     void    actualizarDatos(float t);
     void    actualizarPosicion(float tiempo) {}
+    void    actualizarBS() {}
 };
 
 #endif

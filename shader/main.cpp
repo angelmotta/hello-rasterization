@@ -127,6 +127,7 @@ int main() {
         //pEsfera->display(lightingShader);
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
+            cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")";
             obj->display(lightingShader);
         }
         modelo.display(lightingShader);

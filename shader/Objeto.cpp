@@ -90,3 +90,5 @@ void Esfera::actualizarPosicion(float t) {
     centro.x = xt;
     centro.y = yt;
 }
+
+void Esfera::actualizarBS() {}
