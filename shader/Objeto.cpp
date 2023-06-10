@@ -71,7 +71,7 @@ GLuint Esfera::setup() {
 
 void Esfera::display(Shader &sh){
     model = mat4(1.0);
-    model = scale(model, vec3(0.5));
+    model = scale(model, vec3(escala));
     model = translate(model, centro);
     sh.setMat4("model", model);
     if (visible) {
@@ -82,6 +82,9 @@ void Esfera::display(Shader &sh){
 }
 
 void Esfera::actualizarPosicion(float t) {
+    if (not mueve) {
+        return;
+    }
     float g = 9.8;
     float theta = radians(a0);
     float elapsedTime = t - this->creationTime;
@@ -91,4 +94,7 @@ void Esfera::actualizarPosicion(float t) {
     centro.y = yt;
 }
 
-void Esfera::actualizarBS() {}
+void Esfera::actualizarBS() {
+    bs->radio = radius * escala;
+    bs->centro = centro;
+}

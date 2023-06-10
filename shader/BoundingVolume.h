@@ -13,9 +13,15 @@ public:
 
 class BoundingSphere : public BoundingVolume{
 public:
-    vec3 centro; float radio;
+    vec3 centro;
+    float radio;
+    BoundingSphere() {
+        centro = vec3(0);
+        radio = 0;
+    }
     BoundingSphere(vec3 _centro, float _radio){
-        centro = _centro; radio = _radio;
+        centro = _centro;
+        radio = _radio;
     }
     bool intersecta(BoundingVolume &bv){}
     bool intersecta(BoundingSphere &bs){

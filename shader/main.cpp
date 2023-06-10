@@ -37,7 +37,7 @@ float tiempoInicial = 0.0f, tiempoTranscurrido = 0.0f;
 glm::vec3 lightPos(1.2f, 30.0f, 2.0f);
 
 Esfera esfera(vec3(0),2., 20, 20);
-Objeto *pEsfera = new Esfera(vec3(0),2, 50, 50);
+Esfera *pEsfera = new Esfera(vec3(0),2, 50, 50);
 
 Model_PLY modelo;
 vector<Objeto*> objetos;
@@ -87,10 +87,16 @@ int main() {
     //esfera.vao = esfera.setup();
     //pEsfera->setup();
     esfera.setup();
-    pEsfera->vao = esfera.vao;
     modelo.setup();
+    pEsfera->vao = esfera.vao;
 
-    //objetos.emplace_back(pEsfera);
+    // Bounding Sphere
+    modelo.obtenerBS();
+    pEsfera->centro = modelo.bs->centro;
+    pEsfera->radius = modelo.bs->radio;
+    pEsfera->escala = modelo.escala;
+    pEsfera->mueve = false;
+    objetos.emplace_back(pEsfera);
 
     // render loop
     while (!glfwWindowShouldClose(window)) {
@@ -127,7 +133,7 @@ int main() {
         //pEsfera->display(lightingShader);
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
-            cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")";
+            //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")";
             obj->display(lightingShader);
         }
         modelo.display(lightingShader);
@@ -169,8 +175,9 @@ void processInput(GLFWwindow *window) {
             float y = rand() % 10;
             float z = rand() % 10;
             Objeto *pE = new Esfera(glm::vec3(x, y, z));
+            pE->centro = vec3(x,y,z);
             pE->v0 = 20;
-            pE->a0 = 40 + rand() % 20;
+            pE->a0 = 50 + rand() % 20;
             pE->x0 = x;
             pE->y0 = y;
             pE->vao = esfera.vao;
