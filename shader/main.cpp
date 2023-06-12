@@ -98,6 +98,18 @@ int main() {
     pEsfera->mueve = false;
     objetos.emplace_back(pEsfera);
 
+    // Generar target spheres
+    //pEsfera = new Esfera(vec3(0),2, 50, 50);
+    float pSx = 33, pSy = 3, pSz = 0;
+    Objeto *pSphere = new Esfera(glm::vec3(pSx, pSy, pSz));
+    pSphere->centro = vec3(pSx,pSy,pSz);
+    pSphere->v0 = 20;
+    pSphere->a0 = 50 + rand() % 20;
+    pSphere->x0 = pSx;
+    pSphere->y0 = pSy;
+    pSphere->vao = esfera.vao;
+    pSphere->indices_size = esfera.indices_size;
+
     // render loop
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
@@ -138,6 +150,9 @@ int main() {
         }
         modelo.display(lightingShader);
 
+        // Target
+        pSphere->display(lightingShader);
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -171,9 +186,12 @@ void processInput(GLFWwindow *window) {
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE) {
         if (isButtonPressed) {
-            float x = rand() % 10;
-            float y = rand() % 10;
-            float z = rand() % 10;
+            //float x = rand() % 10;
+            float x = 0;
+            //float y = rand() % 10;
+            float y = 0;
+            //float z = rand() % 10;
+            float z = 0;
             Objeto *pE = new Esfera(glm::vec3(x, y, z));
             pE->centro = vec3(x,y,z);
             pE->v0 = 20;
