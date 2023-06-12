@@ -151,6 +151,7 @@ int main() {
         modelo.display(lightingShader);
 
         // Target
+        lightingShader.setVec3("objectColor", 0.0f, 1.0f, 0.0f);
         pSphere->display(lightingShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
