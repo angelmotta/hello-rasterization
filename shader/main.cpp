@@ -146,11 +146,18 @@ int main() {
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
             //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")";
+            if (currentFrame - obj->creationTime >= 4) {
+                lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
+            } else {
+                lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // default orange color
+            }
             obj->display(lightingShader);
         }
+        // Reset to default orange color
+        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         modelo.display(lightingShader);
 
-        // Target
+        // Target sphere
         lightingShader.setVec3("objectColor", 0.0f, 1.0f, 0.0f);
         pSphere->display(lightingShader);
 
