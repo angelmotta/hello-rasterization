@@ -47,7 +47,7 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    Shader ourShader("../shadersLearning/shader_class/shader.vs", "../shadersLearning/shader_class/shader.fs"); // you can name your shader files however you like
+    Shader ourShader("../LearningOpengl/shader_class/shader.vs", "../LearningOpengl/shader_class/shader.fs"); // you can name your shader files however you like
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

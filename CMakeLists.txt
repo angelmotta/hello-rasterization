@@ -21,6 +21,8 @@ endif()
 #link_directories(/opt/homebrew/lib)
 message("GLFW_INCLUDE_DIR: ${GLFW_INCLUDE_DIR}")
 set(CMAKE_CXX_FLAGS -I${GLFW_INCLUDE_DIR})
+configure_file(LearningOpengl/textures/intro/root_directory.h.in LearningOpengl/textures/intro/root_directory.h)
+include_directories(${CMAKE_BINARY_DIR}/LearningOpengl/textures/intro)
 include_directories(./include/)
 link_directories(${GLFW_LIBRARY_DIR})
 
@@ -45,23 +47,26 @@ target_link_libraries(hello_exe2 glfw.3)
 add_executable(hello_exe3 hello_exercises/exe3_two_shaders.cpp include/glad.c)
 target_link_libraries(hello_exe3 glfw.3)
 
-add_executable(E1_Shaders_Uniform shadersLearning/uniform/shaders_uniform.cpp include/glad.c)
+add_executable(E1_Shaders_Uniform LearningOpengl/uniform/shaders_uniform.cpp include/glad.c)
 target_link_libraries(E1_Shaders_Uniform glfw.3)
 
-add_executable(E1_Shaders_Interpolation shadersLearning/interpolation/shaders_interpolation.cpp include/glad.c)
+add_executable(E1_Shaders_Interpolation LearningOpengl/interpolation/shaders_interpolation.cpp include/glad.c)
 target_link_libraries(E1_Shaders_Interpolation glfw.3)
 
-add_executable(E1_Shaders_Class shadersLearning/shader_class/shaders_class.cpp include/glad.c)
+add_executable(E1_Shaders_Class LearningOpengl/shader_class/shaders_class.cpp include/glad.c)
 target_link_libraries(E1_Shaders_Class glfw.3)
 
-add_executable(E1_Shaders_ex1 shadersLearning/shader_ex1.cpp include/glad.c)
+add_executable(E1_Shaders_ex1 LearningOpengl/shader_ex1.cpp include/glad.c)
 target_link_libraries(E1_Shaders_ex1 glfw.3)
 
-add_executable(E1_Shaders_ex2 shadersLearning/shader_ex2.cpp include/glad.c)
+add_executable(E1_Shaders_ex2 LearningOpengl/shader_ex2.cpp include/glad.c)
 target_link_libraries(E1_Shaders_ex2 glfw.3)
 
-add_executable(E1_Shaders_ex3 shadersLearning/shader_ex3.cpp include/glad.c)
+add_executable(E1_Shaders_ex3 LearningOpengl/shader_ex3.cpp include/glad.c)
 target_link_libraries(E1_Shaders_ex3 glfw.3)
+
+add_executable(E4_Textures_basic LearningOpengl/textures/intro/textures.cpp include/glad.c LearningOpengl/textures/stb_image.cpp)
+target_link_libraries(E4_Textures_basic glfw.3)
 
 add_executable(E5_Transformations shader/transformations.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E5_Transformations glfw.3)
