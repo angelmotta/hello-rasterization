@@ -68,6 +68,9 @@ target_link_libraries(E1_Shaders_ex3 glfw.3)
 add_executable(E4_Textures_basic LearningOpengl/textures/intro/textures.cpp include/glad.c LearningOpengl/textures/stb_image.cpp)
 target_link_libraries(E4_Textures_basic glfw.3)
 
+add_executable(E4_Textures_combined LearningOpengl/textures/textures_combined/textures_combined.cpp include/glad.c LearningOpengl/textures/stb_image.cpp)
+target_link_libraries(E4_Textures_combined glfw.3)
+
 add_executable(E5_Transformations shader/transformations.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(E5_Transformations glfw.3)
 
