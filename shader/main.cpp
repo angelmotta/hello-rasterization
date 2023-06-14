@@ -103,13 +103,17 @@ int main() {
     float pSx = 33, pSy = 3, pSz = 0;
     Objeto *pSphere = new Esfera(glm::vec3(pSx, pSy, pSz));
     pSphere->centro = vec3(pSx,pSy,pSz);
+    Esfera *temp = dynamic_cast<Esfera*>(pSphere);
+    temp->radius = esfera.radius;
     pSphere->v0 = 20;
     pSphere->a0 = 50 + rand() % 20;
     pSphere->x0 = pSx;
     pSphere->y0 = pSy;
     pSphere->vao = esfera.vao;
     pSphere->indices_size = esfera.indices_size;
+    pSphere->actualizarBS();
 
+    bool colision = false;
     // render loop
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
@@ -145,7 +149,12 @@ int main() {
         //pEsfera->display(lightingShader);
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
-            //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")";
+            if (obj->bs->intersecta(*pSphere->bs)) {
+                colision = true;
+                std::cout << "HIT!!!\n";
+            }
+            //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")\n";
+            //cout << "(xt->bs: "<< obj->bs->centro.x << ", yt->bs->: " << obj->bs->centro.y<<")" << ", zt->bs->: " << obj->bs->centro.z<<")\n";
             if (currentFrame - obj->creationTime >= 4) {
                 lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
             } else {
@@ -202,12 +211,15 @@ void processInput(GLFWwindow *window) {
             float z = 0;
             Objeto *pE = new Esfera(glm::vec3(x, y, z));
             pE->centro = vec3(x,y,z);
+            Esfera *temp = dynamic_cast<Esfera*>(pE);
+            temp->radius = esfera.radius;
             pE->v0 = 20;
             pE->a0 = 50 + rand() % 20;
             pE->x0 = x;
             pE->y0 = y;
             pE->vao = esfera.vao;
             pE->indices_size = esfera.indices_size;
+            pE->actualizarBS();
             objetos.emplace_back(pE);
             isButtonPressed = false;
             //cout << endl << x << " " << y << " " << z << " " << pE->a0;

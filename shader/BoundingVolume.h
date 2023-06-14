@@ -25,7 +25,11 @@ public:
     }
     bool intersecta(BoundingVolume &bv){}
     bool intersecta(BoundingSphere &bs){
-        return (bs.centro - centro).length() <= bs.radio + radio;
+        //return (bs.centro - centro).length() <= bs.radio + radio;
+        float diff_x = bs.centro.x - centro.x;
+        float diff_y = bs.centro.y - centro.y;
+        float diff_z = bs.centro.z - centro.z;
+        return sqrt(diff_x*diff_x + diff_y*diff_y + diff_z*diff_z) <= bs.radio + radio;
     }
 };
 

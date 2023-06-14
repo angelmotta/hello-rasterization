@@ -92,6 +92,7 @@ void Esfera::actualizarPosicion(float t) {
     yt = y0 + v0 * sin(theta) * elapsedTime - 0.5 * g * elapsedTime * elapsedTime;
     centro.x = xt;
     centro.y = yt;
+    actualizarBS();
 }
 
 void Esfera::actualizarBS() {
