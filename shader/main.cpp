@@ -113,7 +113,8 @@ int main() {
     pSphere->indices_size = esfera.indices_size;
     pSphere->actualizarBS();
 
-    bool colision = false;
+    int numColisions = 0;
+    bool isHit = false;
     // render loop
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
@@ -150,16 +151,20 @@ int main() {
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
             if (obj->bs->intersecta(*pSphere->bs)) {
-                colision = true;
-                std::cout << "HIT!!!\n";
-            }
-            //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")\n";
-            //cout << "(xt->bs: "<< obj->bs->centro.x << ", yt->bs->: " << obj->bs->centro.y<<")" << ", zt->bs->: " << obj->bs->centro.z<<")\n";
-            if (currentFrame - obj->creationTime >= 4) {
+                numColisions++;
+                std::cout << "HIT: "<< numColisions << "\n";
                 lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
             } else {
                 lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // default orange color
             }
+            //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")\n";
+            //cout << "(xt->bs: "<< obj->bs->centro.x << ", yt->bs->: " << obj->bs->centro.y<<")" << ", zt->bs->: " << obj->bs->centro.z<<")\n";
+
+//            if (currentFrame - obj->creationTime >= 4) {
+//                lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
+//            } else {
+//                lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // default orange color
+//            }
             obj->display(lightingShader);
         }
         // Reset to default orange color
