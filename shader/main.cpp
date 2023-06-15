@@ -41,7 +41,7 @@ Esfera *pEsfera = new Esfera(vec3(0),2, 50, 50);
 
 Model_PLY modelo;
 vector<Objeto*> objetos;
-bool isButtonPressed = false;
+bool isKeySpacePressed = false;
 float myAngle = 10;
 
 int main() {
@@ -203,23 +203,19 @@ void processInput(GLFWwindow *window) {
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-        isButtonPressed = true;
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        isKeySpacePressed = true;
     }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE) {
-        if (isButtonPressed) {
-            //float x = rand() % 10;
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+        if (isKeySpacePressed) {
             float x = 0;
-            //float y = rand() % 10;
             float y = 0;
-            //float z = rand() % 10;
             float z = 0;
             Objeto *pE = new Esfera(glm::vec3(x, y, z));
             pE->centro = vec3(x,y,z);
             Esfera *temp = dynamic_cast<Esfera*>(pE);
             temp->radius = esfera.radius;
             pE->v0 = 20;
-            //pE->a0 = 50 + rand() % 20;
             pE->a0 = myAngle;
             pE->x0 = x;
             pE->y0 = y;
@@ -227,9 +223,8 @@ void processInput(GLFWwindow *window) {
             pE->indices_size = esfera.indices_size;
             pE->actualizarBS();
             objetos.emplace_back(pE);
-            isButtonPressed = false;
+            isKeySpacePressed = false;
             //cout << endl << x << " " << y << " " << z << " " << pE->a0;
-            //tiempoInicial = static_cast<float>(glfwGetTime());
             pE->creationTime = static_cast<float>(glfwGetTime());
         }
     }
