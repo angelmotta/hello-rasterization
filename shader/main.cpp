@@ -42,6 +42,7 @@ Esfera *pEsfera = new Esfera(vec3(0),2, 50, 50);
 Model_PLY modelo;
 vector<Objeto*> objetos;
 bool isButtonPressed = false;
+float myAngle = 10;
 
 int main() {
     char *archivo = "../shader/models/bunny.ply";
@@ -114,7 +115,6 @@ int main() {
     pSphere->actualizarBS();
 
     int numColisions = 0;
-    bool isHit = false;
     // render loop
     while (!glfwWindowShouldClose(window)) {
         // per-frame time logic
@@ -219,7 +219,8 @@ void processInput(GLFWwindow *window) {
             Esfera *temp = dynamic_cast<Esfera*>(pE);
             temp->radius = esfera.radius;
             pE->v0 = 20;
-            pE->a0 = 50 + rand() % 20;
+            //pE->a0 = 50 + rand() % 20;
+            pE->a0 = myAngle;
             pE->x0 = x;
             pE->y0 = y;
             pE->vao = esfera.vao;
@@ -231,6 +232,14 @@ void processInput(GLFWwindow *window) {
             //tiempoInicial = static_cast<float>(glfwGetTime());
             pE->creationTime = static_cast<float>(glfwGetTime());
         }
+    }
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        myAngle += 0.015;
+        cout << "Angle: " << myAngle << "\n";
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        myAngle -= 0.015;
+        cout << "Angle: " << myAngle << "\n";
     }
 }
 
