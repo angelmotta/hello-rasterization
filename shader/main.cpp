@@ -43,6 +43,7 @@ Model_PLY modelo;
 vector<Objeto*> objetos;
 bool isKeySpacePressed = false;
 float myAngle = 10;
+float myVel = 0.1;
 
 int main() {
     char *archivo = "../shader/models/bunny.ply";
@@ -102,17 +103,17 @@ int main() {
     // Generar target spheres
     //pEsfera = new Esfera(vec3(0),2, 50, 50);
     float pSx = 33, pSy = 3, pSz = 0;
-    Objeto *pSphere = new Esfera(glm::vec3(pSx, pSy, pSz));
-    pSphere->centro = vec3(pSx,pSy,pSz);
-    Esfera *temp = dynamic_cast<Esfera*>(pSphere);
+    Objeto *targetSphere1 = new Esfera(glm::vec3(pSx, pSy, pSz));
+    targetSphere1->centro = vec3(pSx, pSy, pSz);
+    Esfera *temp = dynamic_cast<Esfera*>(targetSphere1);
     temp->radius = esfera.radius;
-    pSphere->v0 = 20;
-    pSphere->a0 = 50 + rand() % 20;
-    pSphere->x0 = pSx;
-    pSphere->y0 = pSy;
-    pSphere->vao = esfera.vao;
-    pSphere->indices_size = esfera.indices_size;
-    pSphere->actualizarBS();
+    targetSphere1->v0 = 20;
+    targetSphere1->a0 = 50 + rand() % 20;
+    targetSphere1->x0 = pSx;
+    targetSphere1->y0 = pSy;
+    targetSphere1->vao = esfera.vao;
+    targetSphere1->indices_size = esfera.indices_size;
+    targetSphere1->actualizarBS();
 
     int numColisions = 0;
     // render loop
@@ -150,7 +151,7 @@ int main() {
         //pEsfera->display(lightingShader);
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
-            if (obj->bs->intersecta(*pSphere->bs)) {
+            if (obj->bs->intersecta(*targetSphere1->bs)) {
                 numColisions++;
                 std::cout << "HIT: "<< numColisions << "\n";
                 lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
@@ -173,7 +174,7 @@ int main() {
 
         // Target sphere
         lightingShader.setVec3("objectColor", 0.0f, 1.0f, 0.0f);
-        pSphere->display(lightingShader);
+        targetSphere1->display(lightingShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
@@ -205,6 +206,8 @@ void processInput(GLFWwindow *window) {
         camera.ProcessKeyboard(RIGHT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
         isKeySpacePressed = true;
+        myVel += 0.1;
+        cout << "Velocidad: " << myVel << "\n";
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
         if (isKeySpacePressed) {
@@ -215,7 +218,8 @@ void processInput(GLFWwindow *window) {
             pE->centro = vec3(x,y,z);
             Esfera *temp = dynamic_cast<Esfera*>(pE);
             temp->radius = esfera.radius;
-            pE->v0 = 20;
+            //pE->v0 = 20;
+            pE->v0 = myVel;
             pE->a0 = myAngle;
             pE->x0 = x;
             pE->y0 = y;
@@ -226,14 +230,18 @@ void processInput(GLFWwindow *window) {
             isKeySpacePressed = false;
             //cout << endl << x << " " << y << " " << z << " " << pE->a0;
             pE->creationTime = static_cast<float>(glfwGetTime());
+            cout << "\nVelocidad: " << myVel << "\n";
+            cout << "Angulo: " << myAngle << "\n";
+            // Reset velocity to default
+            myVel = 0.1;
         }
     }
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        myAngle += 0.015;
+        myAngle += 0.020;
         cout << "Angle: " << myAngle << "\n";
     }
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        myAngle -= 0.015;
+        myAngle -= 0.020;
         cout << "Angle: " << myAngle << "\n";
     }
 }
