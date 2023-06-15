@@ -50,15 +50,15 @@ public:
     float radius;
     int slices, stacks;
     Esfera() {
-        escala = 0.5;
+        escala = 0.8;
         centro = vec3(0.0);
     }
     Esfera(vec3 _centro) {
-        escala = 0.5;
+        escala = 0.8;
         centro = _centro;
     }
     Esfera(vec3 _centro, float _radius, int _slices, int _stacks) {
-        escala = 0.5;
+        escala = 0.8;
         centro = _centro;
         radius = _radius;
         slices = _slices;

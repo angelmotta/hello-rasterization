@@ -83,5 +83,5 @@ target_link_libraries(E2_Iluminacion glfw.3)
 add_executable(T9_Npiramides shader/mynpiramidesilum.cpp include/glad.c shader/stb_image.cpp)
 target_link_libraries(T9_Npiramides glfw.3)
 
-add_executable(Conejo shader/main.cpp include/glad.c shader/glut_ply.cpp shader/Objeto.cpp shader/BoundingVolume.h)
-target_link_libraries(Conejo glfw.3)
+add_executable(Proyecto2 shader/main.cpp include/glad.c shader/glut_ply.cpp shader/Objeto.cpp shader/BoundingVolume.h)
+target_link_libraries(Proyecto2 glfw.3)
