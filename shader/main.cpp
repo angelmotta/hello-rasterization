@@ -41,6 +41,7 @@ Esfera *pEsfera = new Esfera(vec3(0),2, 50, 50);
 
 Model_PLY modelo;
 vector<Objeto*> objetos;
+vector<Objeto*> targetListObjects;
 bool isKeySpacePressed = false;
 float myAngle = 10;
 float myVel = 0.1;
@@ -101,11 +102,13 @@ int main() {
     objetos.emplace_back(pEsfera);
 
     // Generar target spheres
+    Esfera *temp;
+
     //pEsfera = new Esfera(vec3(0),2, 50, 50);
     float pSx = 33, pSy = 3, pSz = 0;
     Objeto *targetSphere1 = new Esfera(glm::vec3(pSx, pSy, pSz));
     targetSphere1->centro = vec3(pSx, pSy, pSz);
-    Esfera *temp = dynamic_cast<Esfera*>(targetSphere1);
+    temp = dynamic_cast<Esfera*>(targetSphere1);
     temp->radius = esfera.radius;
     targetSphere1->v0 = 20;
     targetSphere1->a0 = 50 + rand() % 20;
@@ -114,6 +117,22 @@ int main() {
     targetSphere1->vao = esfera.vao;
     targetSphere1->indices_size = esfera.indices_size;
     targetSphere1->actualizarBS();
+    targetListObjects.emplace_back(targetSphere1);
+
+    // Target Sphere 2
+    pSx = 63, pSy = 3, pSz = 0;
+    Objeto *targetSphere2 = new Esfera(glm::vec3(pSx, pSy, pSz));
+    targetSphere2->centro = vec3(pSx, pSy, pSz);
+    temp = dynamic_cast<Esfera*>(targetSphere2);
+    temp->radius = esfera.radius;
+    targetSphere2->v0 = 20;
+    targetSphere2->a0 = 50 + rand() % 20;
+    targetSphere2->x0 = pSx;
+    targetSphere2->y0 = pSy;
+    targetSphere2->vao = esfera.vao;
+    targetSphere2->indices_size = esfera.indices_size;
+    targetSphere2->actualizarBS();
+    targetListObjects.emplace_back(targetSphere2);
 
     int numColisions = 0;
     // render loop
@@ -151,6 +170,17 @@ int main() {
         //pEsfera->display(lightingShader);
         for (auto &obj : objetos) {
             obj->actualizarPosicion(tiempoTranscurrido);
+            for (auto &target : targetListObjects) {
+                if (obj->bs->intersecta(*target->bs)) {
+                    numColisions++;
+                    std::cout << "HIT: "<< numColisions << "\n";
+                    lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color RED
+                    break;  // stop searching for collisions with other spheres
+                } else {
+                    lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // Default orange color
+                }
+            }
+            /*
             if (obj->bs->intersecta(*targetSphere1->bs)) {
                 numColisions++;
                 std::cout << "HIT: "<< numColisions << "\n";
@@ -158,14 +188,9 @@ int main() {
             } else {
                 lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // default orange color
             }
+            */
             //cout << "(xt: "<< obj->xt << ", yt: " << obj->yt<<")\n";
             //cout << "(xt->bs: "<< obj->bs->centro.x << ", yt->bs->: " << obj->bs->centro.y<<")" << ", zt->bs->: " << obj->bs->centro.z<<")\n";
-
-//            if (currentFrame - obj->creationTime >= 4) {
-//                lightingShader.setVec3("objectColor", 1.0f, 0.0f, 0.0f);    // cambiar color
-//            } else {
-//                lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f); // default orange color
-//            }
             obj->display(lightingShader);
         }
         // Reset to default orange color
@@ -174,7 +199,10 @@ int main() {
 
         // Target sphere
         lightingShader.setVec3("objectColor", 0.0f, 1.0f, 0.0f);
-        targetSphere1->display(lightingShader);
+        //targetSphere1->display(lightingShader);
+        for (auto &target : targetListObjects) {
+            target->display(lightingShader);
+        }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
