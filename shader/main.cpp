@@ -256,7 +256,7 @@ void processInput(GLFWwindow *window) {
             pE->actualizarBS();
             objetos.emplace_back(pE);
             isKeySpacePressed = false;
-            //cout << endl << x << " " << y << " " << z << " " << pE->a0;
+//            cout << x << " " << y << " " << z << " " << pE->a0;
             pE->creationTime = static_cast<float>(glfwGetTime());
             cout << "\nVelocidad: " << myVel << "\n";
             cout << "Angulo: " << myAngle << "\n";
